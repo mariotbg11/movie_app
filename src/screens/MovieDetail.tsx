@@ -45,58 +45,58 @@ export default function MovieDetail({route}: any): JSX.Element {
   }
 
   return (
-    <View>
-      <ImageBackground
-        resizeMode="cover"
-        style={styles.backgroundImage}
-        imageStyle={styles.backgroundImageStyle}
-        source={{
-          uri: `https://image.tmdb.org/t/p/w500${movie.backdrop_path}`,
-        }}
-      >
-        <LinearGradient
-          colors={['#00000000', 'rgba(0, 0, 0, 0.7)']}
-          locations={[0.6, 0.8]}
-          style={styles.gradientStyle}
+    <ScrollView>
+      <View>
+        <ImageBackground
+          resizeMode="cover"
+          style={styles.backgroundImage}
+          imageStyle={styles.backgroundImageStyle}
+          source={{
+            uri: `https://image.tmdb.org/t/p/w500${movie.backdrop_path}`,
+          }}
         >
-          <View style={styles.titleRatingContainer}>
-            <Text style={styles.movieTitle}>{movie.title}</Text>
-            <View style={styles.ratingContainer}>
-              <FontAwesome name="star" size={16} color="yellow" />
-              <Text style={styles.rating}>{movie.vote_average.toFixed(1)}</Text>
+          <LinearGradient
+            colors={['#00000000', 'rgba(0, 0, 0, 0.7)']}
+            locations={[0.6, 0.8]}
+            style={styles.gradientStyle}
+          >
+            <View style={styles.titleRatingContainer}>
+              <Text style={styles.movieTitle}>{movie.title}</Text>
+              <View style={styles.ratingContainer}>
+                <FontAwesome name="star" size={16} color="yellow" />
+                <Text style={styles.rating}>{movie.vote_average.toFixed(1)}</Text>
+              </View>
+            </View>
+          </LinearGradient>
+        </ImageBackground>
+        <View style={styles.movieDescription}>
+          <Text>{movie.overview}</Text>
+          <View style={styles.movieInfo}>
+            <View style={styles.movieInfoItem}>
+              <Text style={styles.movieInfoItemTitle}>Original Language</Text>
+              <Text>{movie.original_language}</Text>
+            </View>
+            <View style={styles.movieInfoItem}>
+              <Text style={styles.movieInfoItemTitle}>Popularity</Text>
+              <Text>{movie.popularity}</Text>
+            </View>
+            <View style={styles.movieInfoItem}>
+              <Text style={styles.movieInfoItemTitle}>Release Date</Text>
+              <Text>{movie.release_date}</Text>
+            </View>
+            <View style={styles.movieInfoItem}>
+              <Text style={styles.movieInfoItemTitle}>Vote Count</Text>
+              <Text>{movie.vote_count}</Text>
             </View>
           </View>
-        </LinearGradient>
-      </ImageBackground>
-      <View style={styles.movieDescription}>
-        <Text>{movie.overview}</Text>
-        <View style={styles.movieInfo}>
-          <View style={styles.movieInfoItem}>
-            <Text style={styles.movieInfoItemTitle}>Original Language</Text>
-            <Text>{movie.original_language}</Text>
-          </View>
-          <View style={styles.movieInfoItem}>
-            <Text style={styles.movieInfoItemTitle}>Popularity</Text>
-            <Text>{movie.popularity}</Text>
-          </View>
-          <View style={styles.movieInfoItem}>
-            <Text style={styles.movieInfoItemTitle}>Release Date</Text>
-            <Text>{movie.release_date}</Text>
-          </View>
-          <View style={styles.movieInfoItem}>
-            <Text style={styles.movieInfoItemTitle}>Vote Count</Text>
-            <Text>{movie.vote_count}</Text>
-          </View>
         </View>
-      </View>
-      <ScrollView>
         <MovieList
           title="Recommended Movies"
           path={`movie/${id}/recommendations?language=en-US&page=1`}
           coverType="poster"
         />
-      </ScrollView>
-    </View>
+      </View>
+    </ScrollView>
   )
 }
 
