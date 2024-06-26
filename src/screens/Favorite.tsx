@@ -62,7 +62,7 @@ export default function Favorite(): JSX.Element {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingHorizontal: 30,
+    paddingHorizontal: 36,
     paddingVertical: 50,
   },
   title: {
@@ -80,7 +80,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
   },
   movieItemContainer: {
-    flexBasis: '34.5%',
+    flexBasis: '35%',
   },
   separator: {
     height: 18,
