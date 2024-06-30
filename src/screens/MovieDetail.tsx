@@ -6,15 +6,18 @@ import {API_ACCESS_TOKEN} from '@env'
 import MovieList from '../components/movies/MovieList'
 import {Movie} from '../types/app'
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import YoutubePlayer from 'react-native-youtube-iframe'
 
 export default function MovieDetail({route}: any): JSX.Element {
   const {id} = route.params
   const [movie, setMovie] = useState<any | null>(null)
+  const [movieTrailer, setMovieTrailer] = useState()
   const [isLoading, setIsLoading] = useState<boolean>(true)
   const [isFavorite, setIsFavorite] = useState<boolean>(false)
 
   useEffect(() => {
     getMovieDetails()
+    getMovieTrailer()
     checkIsFavorite(id).then(setIsFavorite)
   }, [])
 
@@ -37,6 +40,27 @@ export default function MovieDetail({route}: any): JSX.Element {
       .catch((errorResponse) => {
         console.log(errorResponse)
         setIsLoading(false)
+      })
+  }
+
+  const getMovieTrailer = async (): Promise<void> => {
+    const url = `https://api.themoviedb.org/3/movie/${id}/videos`
+    const options = {
+      method: 'GET',
+      headers: {
+        accept: 'application/json',
+        Authorization: `Bearer ${API_ACCESS_TOKEN}`,
+      },
+    }
+
+    fetch(url, options)
+      .then((response) => response.json())
+      .then((response) => {
+        const trailer = response.results.find((video) => video.type === 'Trailer')
+        setMovieTrailer(trailer?.key)
+      })
+      .catch((errorResponse) => {
+        console.log(errorResponse)
       })
   }
 
@@ -162,6 +186,7 @@ export default function MovieDetail({route}: any): JSX.Element {
               <Text>{movie?.vote_count}</Text>
             </View>
           </View>
+          <YoutubePlayer height={225} play={false} videoId={movieTrailer} />
         </View>
         <MovieList
           title="Recommended Movies"
@@ -225,6 +250,7 @@ const styles = StyleSheet.create({
     rowGap: 5,
     alignItems: 'flex-start',
     marginTop: 10,
+    marginBottom: 20,
   },
   movieInfoItem: {
     width: '50%',
